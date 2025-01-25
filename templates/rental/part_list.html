@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Parts - UAV Rental Project{% endblock %}
+
+{% load static %}
+
+{% block content %}
+    <h2>Manage Parts</h2>
+
+    <!-- Conditional button rendering -->
+    {% if team == "Assembly" %}
+        <a href="{% url 'assemble_aircraft' %}" class="btn btn-success mb-3">Assemble Aircraft</a>
+    {% else %}
+        <a href="{% url 'part_create' %}" class="btn btn-primary mb-3">Add New Part</a>
+    {% endif %}
+
+    {% if parts.exists %}
+    <table id="partsTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Part Type</th>
+            <th>Aircraft</th>
+            <th>Stock</th>
+            {% if team != "Assembly" %}
+
+                <th>Actions</th>
+            {% endif %}
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for part in parts %}
+            <tr>
+                <td>{{ part.id }}</td>
+                <td>{{ part.get_part_type_display }}</td>
+                <td>{{ part.aircraft }}</td>
+                <td>{{ part.stock }}</td>
+                {% if team != "Assembly" %}
+                    <td>
+                        <a href="{% url 'part_update' part.id %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'part_delete' part.id %}" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        {% else %}
+        <div class="alert alert-info" role="alert">
+            No parts have been created yet.
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+    <!-- Include datatables.js -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#partsTable').DataTable();
+        });
+    </script>
+{% endblock %}

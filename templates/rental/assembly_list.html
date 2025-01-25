@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Assemblies - UAV Rental Project{% endblock %}
+
+{% block content %}
+<h2>Assemblies</h2>
+<a href="{% url 'assemble_aircraft' %}" class="btn btn-success mb-3">Assemble New Aircraft</a>
+
+<table id="assembliesTable" class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Aircraft</th>
+            <th>Wings</th>
+            <th>Fuselages</th>
+            <th>Tails</th>
+            <th>Avionics</th>
+            <th>Assembled At</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for assembly in assemblies %}
+        <tr>
+            <td>{{ assembly.id }}</td>
+            <td>{{ assembly.aircraft }}</td>
+            <td>{{ assembly.wings }}</td>
+            <td>{{ assembly.fuselages }}</td>
+            <td>{{ assembly.tails }}</td>
+            <td>{{ assembly.avionics }}</td>
+            <td>{{ assembly.assembled_at }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Include datatables.js -->
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#assembliesTable').DataTable();
+    });
+</script>
+{% endblock %}

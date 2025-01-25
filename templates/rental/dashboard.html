@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - UAV Rental Project{% endblock %}
+
+{% block content %}
+<h2>Welcome to the Dashboard</h2>
+<p>You are logged in as a member of the <strong>{{ team }}</strong>.</p>
+
+<div class="row mt-4">
+    {% if team != "Assembly" and team != "NoTeam" %}
+    <div class="col-md-4">
+        <a href="{% url 'part_list' %}" class="btn btn-primary btn-block">Manage Parts</a>
+    </div>
+    {% elif team == "Assembly" %}
+    <div class="col-md-4">
+        <a href="{% url 'part_list' %}" class="btn btn-primary btn-block">View All Parts</a>
+    </div>
+    {% endif %}
+    {% if team == "Assembly" %}
+    <div class="col-md-4">
+        <a href="{% url 'assemble_aircraft' %}" class="btn btn-success btn-block">Assemble Aircraft</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
